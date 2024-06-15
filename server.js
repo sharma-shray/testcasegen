@@ -28,10 +28,17 @@ app.post('/custom-endpoint', async (req, res) => {
   }
 });
 
+// New endpoint
+app.get('/hello', (req, res) => {
+  res.status(200).send('Hello, world!');
+});
+
+// Serve index.html on root request
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
