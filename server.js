@@ -44,7 +44,7 @@ app.post('/generate-testcase-title', async (req, res) => {
         
         
         // Respond with success message
-        res.status(200).json({ groqResponse });
+        res.status(200).json({ message: groqResponse });
     } catch (error) {
         console.error('Error processing request:', error);
         res.status(500).json({ error: 'Internal server error' });
