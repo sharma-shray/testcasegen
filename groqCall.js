@@ -41,5 +41,24 @@ export async function groqCall(userInput, previousTickets) {
         stop: null
     });
     let response = chatCompletion.choices[0].message.content;
+    console.log(response)
+    response=await extractTestCases(response)
     return response;
 }
+function extractTestCases(reply) {
+    // Extract the message from the JSON object
+    let message = reply.trim();
+  
+    // Find the index of the first occurrence of "\n\n"
+    let startIndex = message.indexOf("\n\n");
+  
+    // Check if "\n\n" is found and extract test cases accordingly
+    if (startIndex !== -1) {
+      // Extract everything after the first "\n\n"
+      let testCases = message.substring(startIndex + 2).trim();
+      return testCases;
+    } else {
+      // Return the entire message as test cases if "\n\n" is not found
+      return message;
+    }
+  }
