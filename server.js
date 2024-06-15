@@ -1,16 +1,13 @@
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const express = require('express');
 const axios = require('axios');
-const jsonServer = require('json-server');
 
 const app = express();
-const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(middlewares);
+app.use(express.static('public'));
 
 // Custom endpoint
 app.post('/custom-endpoint', async (req, res) => {
@@ -25,16 +22,16 @@ app.post('/custom-endpoint', async (req, res) => {
   // Forward the request to another endpoint
   try {
     //const response = await axios.post('https://example.com/another-endpoint', incomingMessage);
-   // res.status(response.status).json(response.data);
-   res.status(200).json("hi");
+    res.status(200).json("hi");
   } catch (error) {
     res.status(error.response ? error.response.status : 500).json({ error: error.message });
   }
 });
 
-// Use json-server's default router
-app.use(router);
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(PORT, () => {
-  console.log(`JSON Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
