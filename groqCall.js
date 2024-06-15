@@ -6,7 +6,7 @@ export function createGroqMessagesForTestCaseTitles(currentTicket, previousTicke
     const messages = [
         {
             role: "system",
-            content: `You are a highly experienced Quality assurance engineer. The user will pass you the ticket description for new functionality and you need to generate test case titles for the functionality. Response Criterion: - Adhere strictly to the ticket descriptions - ONLY test cases titles - One line test case titles only - A sample test case title: " Verify the username field is able to take input of alphanumeric characters"`
+            content: `You are a highly experienced Quality assurance engineer. The user will pass you the ticket description for new functionality and you need to generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'"," Verify the username field is able to take input of alphanumeric characters"`
         },
     ];
 
@@ -20,7 +20,7 @@ export function createGroqMessagesForTestCaseTitles(currentTicket, previousTicke
   }
     messages.push({
         role: "user",
-        content: "Take a deep breath and go step by step, go through all the old tickets and join the dots with the current ticket and generate test cases for the current ticket, Ticket description:" + currentTicket
+        content: `Take a deep breath and go step by step, go through all the old tickets and join the dots with the current ticket and generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'" for the current ticket, Ticket description:` + currentTicket
     });
 
     return messages;
