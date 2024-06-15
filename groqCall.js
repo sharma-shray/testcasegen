@@ -6,7 +6,7 @@ export function createGroqMessagesForTestCaseTitles(currentTicket, previousTicke
     const messages = [
         {
             role: "system",
-            content: `You are a highly experienced Quality assurance engineer. The user will pass you the ticket description for new functionality and you need to generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'"," Verify the username field is able to take input of alphanumeric characters"`
+            content: `You are a highly experienced Quality assurance engineer. The user will pass you the ticket description for new functionality and you need to generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'"," Verify the username field is able to take input of alphanumeric characters" - DO NOT include conversational text in your replies`
         },
     ];
 
