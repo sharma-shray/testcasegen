@@ -20,7 +20,7 @@ export function createGroqMessagesForTestCaseTitles(currentTicket, previousTicke
   }
     messages.push({
         role: "user",
-        content: `Take a deep breath and go step by step, go through all the old tickets and join the dots with the current ticket and generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'" for the current ticket, Ticket description:` + currentTicket
+        content: `Take a deep breath and go step by step, go through all the old tickets and join the dots with the current ticket and generate concise test case titles specifying exact expectations, such as "Verify 'Login' button labeled as 'Sign In'" for the current ticket,one after the other no need of categorisation without conversational text, Ticket description:` + currentTicket
     });
 
     return messages;
