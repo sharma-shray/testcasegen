@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Custom endpoint
-app.post('/custom-endpoint', async (req, res) => {
+app.post('/generate-testcase-title', async (req, res) => {
     try {
         const incomingMessage = req.body;
 
@@ -49,6 +49,22 @@ app.post('/custom-endpoint', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+// Endpoint to reset db.json manually
+app.post('/reset-db', (req, res) => {
+    try {
+      const dbFilePath = path.join(__dirname, 'db.json');
+      const initialData = { messages: [] };
+  
+      fs.writeFileSync(dbFilePath, JSON.stringify(initialData, null, 2), 'utf8');
+      console.log('db.json has been reset');
+  
+      res.status(200).json({ message: 'db.json has been reset' });
+    } catch (error) {
+      console.error('Error resetting db.json:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 // New endpoint
 app.get('/hello', (req, res) => {
