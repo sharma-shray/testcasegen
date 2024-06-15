@@ -15,7 +15,8 @@ app.use(express.static('public'));
 app.post('/generate-testcase-title', async (req, res) => {
     try {
         const incomingMessage = req.body;
-
+        const encodedMessage = req.body.message;
+        const decodedMessage = decodeURIComponent(encodedMessage);
         // Validate incoming message structure
         if (!incomingMessage || typeof incomingMessage !== 'object' || !incomingMessage.hasOwnProperty('message')) {
             return res.status(400).json({ error: 'Invalid message format' });
@@ -31,11 +32,11 @@ app.post('/generate-testcase-title', async (req, res) => {
             dbData = JSON.parse(dbContent);
         }
         //groq call
-        console.log(incomingMessage)
-        let groqResponse = await groqCall(incomingMessage.message, dbData.messages);
+        console.log(decodedMessage)
+        let groqResponse = await groqCall(decodedMessage, dbData.messages);
 
         // Append the incoming message to dbData.messages
-        dbData.messages.push({ message: incomingMessage.message });
+        dbData.messages.push({ message: decodedMessage });
 
         // Write updated data back to db.json
         fs.writeFileSync(dbFilePath, JSON.stringify(dbData, null, 2), 'utf8');
