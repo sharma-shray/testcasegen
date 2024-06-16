@@ -2,8 +2,8 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import { groqCallCreateTestcase } from './groqCall.js'; // Adjust the path accordingly
-
+import { groqCallCreateTestcase,groqCallCreateTestcaseSteps } from './groqCall.js'; 
+import {createTestCase} from './zephyr_integration.js'
 const app = express();
 const PORT = process.env.PORT || 3000;
 const __dirname = path.resolve();
@@ -11,7 +11,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.static('public'));
 
-// Custom endpoint
+// generate test case title
 app.post('/generate-testcase-title', async (req, res) => {
     try {
         const incomingMessage = req.body;
@@ -50,6 +50,51 @@ app.post('/generate-testcase-title', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+// generate test case steps
+app.post('/generate-testcase-steps', async (req, res) => {
+    try {
+        const incomingMessage = req.body;
+        const encodedMessage = req.body.message;
+        const encodedSummary = req.body.summary;
+        const decodedSummary = decodeURIComponent(encodedSummary);
+        const decodedMessage = decodeURIComponent(encodedMessage);
+
+        // Validate incoming message structure
+        if (!incomingMessage || typeof incomingMessage !== 'object' || !incomingMessage.hasOwnProperty('message')) {
+            return res.status(400).json({ error: 'Invalid message format' });
+        }
+        
+        // Read db.json file
+        const dbFilePath = path.join(__dirname, 'db.json');
+        let dbData = { messages: [] };
+
+        // Check if db.json exists and has data
+        if (fs.existsSync(dbFilePath)) {
+            const dbContent = fs.readFileSync(dbFilePath, 'utf8');
+            dbData = JSON.parse(dbContent);
+        }
+        
+        // Extract the list of test cases from the decoded message
+        const testCases = decodedMessage.split('\n').filter(tc => tc.trim() !== '');
+
+        // Generate detailed steps for each test case
+        const detailedTestCaseSteps = [];
+        for (const testCase of testCases) {
+            const steps = await groqCallCreateTestcaseSteps(decodedSummary,testCase, dbData.messages);
+            await createTestCase(testCase,steps);
+            detailedTestCaseSteps.push({ testCase, steps });
+        }
+        
+        // Respond with detailed test case steps
+        res.status(200).json({ detailedTestCaseSteps });
+    } catch (error) {
+        console.error('Error processing request:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 // Endpoint to reset db.json manually
 app.post('/reset-db', (req, res) => {
