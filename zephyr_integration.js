@@ -41,13 +41,12 @@ async function createTestCaseTitleCall(testCaseTitle){
 
     function extractSteps(groqResponse) {
         const lines = groqResponse.split('\n');
-        const testCaseTitle = lines[0].replace('Test case title: ', '').trim();
         const steps = [];
     
-        for (let i = 1; i < lines.length; i += 2) {
+        for (let i = 0; i < lines.length; i += 2) {
             if (i + 1 < lines.length) {
-                const step = lines[i + 1].replace('Step: ', '').trim(); // Reversed to match UI
-                const expectedResult = lines[i].replace('Expected result: ', '').trim(); // Reversed to match UI
+                const step = lines[i].replace('Step: ', '').trim();
+                const expectedResult = lines[i + 1].replace('Expected result: ', '').trim();
                 steps.push({ step, expectedResult });
             }
         }
@@ -90,15 +89,5 @@ async function addTestStepsToTestCase(testCaseKey, groqResponse) {
         console.error('Error adding test steps:', error.response ? error.response.data : error.message);
         throw new Error(`Error adding test steps to test case ${testCaseKey}: ${error.message}`);
     }
-}
-// Helper function to extract test case title from the steps
-function extractTestCaseTitle(steps) {
-    const titleMatch = steps.match(/^- Test case title: (.+)$/m);
-    return titleMatch ? titleMatch[1] : 'Untitled Test Case';
-}
-
-// Helper function to extract the remaining steps after the title
-function extractTestCaseSteps(steps) {
-    return steps.replace(/^- Test case title: .+\n/, '');
 }
 
