@@ -60,8 +60,9 @@ app.post('/generate-testcase-steps', async (req, res) => {
         console.log(" here is the message from  test case steps",incomingMessage)
         const encodedMessage = req.body.message;
         const encodedSummary = req.body.summary;
-        const decodedSummary = decodeURIComponent(encodedSummary);
-        const decodedMessage = decodeURIComponent(encodedMessage);
+        const decodedSummary = decodeURIComponent(encodedSummary.replace(/\+/g, '%20'));
+        const decodedMessage = decodeURIComponent(encodedMessage.replace(/\+/g, '%20'));
+
 
         // Validate incoming message structure
         if (!incomingMessage || typeof incomingMessage !== 'object' || !incomingMessage.hasOwnProperty('message')) {
