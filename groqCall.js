@@ -26,7 +26,7 @@ export function createGroqMessagesForTestCaseTitles(currentTicket, previousTicke
     return messages;
 }
 
-export async function groqCall(userInput, previousTickets) {
+export async function groqCallCreateTestcase(userInput, previousTickets) {
     const groq = new Groq();
     const messages = createGroqMessagesForTestCaseTitles(userInput, previousTickets);
     console.log(messages)

@@ -2,7 +2,7 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import { groqCall } from './groqCall.js'; // Adjust the path accordingly
+import { groqCallCreateTestcase } from './groqCall.js'; // Adjust the path accordingly
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,7 +33,7 @@ app.post('/generate-testcase-title', async (req, res) => {
         }
         //groq call
         console.log(decodedMessage)
-        let groqResponse = await groqCall(decodedMessage, dbData.messages);
+        let groqResponse = await groqCallCreateTestcase(decodedMessage, dbData.messages);
 
         // Append the incoming message to dbData.messages
         dbData.messages.push({ message: decodedMessage });
