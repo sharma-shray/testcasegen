@@ -15,7 +15,7 @@ app.use(express.static('public'));
 app.post('/generate-testcase-title', async (req, res) => {
     try {
         const incomingMessage = req.body;
-        console.log(incomingMessage)
+        //console.log(incomingMessage)
         const encodedMessage = req.body.message;
         const decodedMessage = decodeURIComponent(encodedMessage);
         // Validate incoming message structure
@@ -57,6 +57,7 @@ app.post('/generate-testcase-title', async (req, res) => {
 app.post('/generate-testcase-steps', async (req, res) => {
     try {
         const incomingMessage = req.body;
+        console.log(incomingMessage)
         const encodedMessage = req.body.message;
         const encodedSummary = req.body.summary;
         const decodedSummary = decodeURIComponent(encodedSummary);
