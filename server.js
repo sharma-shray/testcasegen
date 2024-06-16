@@ -57,7 +57,7 @@ app.post('/generate-testcase-title', async (req, res) => {
 app.post('/generate-testcase-steps', async (req, res) => {
     try {
         const incomingMessage = req.body;
-        console.log(incomingMessage)
+        console.log(" here is the message from  test case steps",incomingMessage)
         const encodedMessage = req.body.message;
         const encodedSummary = req.body.summary;
         const decodedSummary = decodeURIComponent(encodedSummary);
