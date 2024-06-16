@@ -15,6 +15,7 @@ app.use(express.static('public'));
 app.post('/generate-testcase-title', async (req, res) => {
     try {
         const incomingMessage = req.body;
+        console.log(incomingMessage)
         const encodedMessage = req.body.message;
         const decodedMessage = decodeURIComponent(encodedMessage);
         // Validate incoming message structure
