@@ -52,7 +52,7 @@ export function createGroqMessagesForTestCaseSteps(summary,testCase,previousTick
   }
     messages.push({
         role: "user",
-        content: `Take a deep breath and go step by step, go through all the existing functionalities ,understand them and join the dots to generate concise test case steps, you can find the ticket description by matching the summary in our older chat .
+        content: `Take a deep breath and go through all the existing functionalities ,understand them and join the dots to understand how you will navigate to the page where the test needs to happen, then generate concise test case steps, you can find the ticket description by matching the summary in our older chat with this message's summary .
         Response format:
         - step: ....
         Expected result: ...
